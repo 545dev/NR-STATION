@@ -21,8 +21,8 @@
                 password, 
                 salt, 
                 email,
-		tipo,
-		attivo
+		        tipo,
+		        attivo
             FROM users 
             WHERE 
                 username = :username 
