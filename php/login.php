@@ -83,7 +83,7 @@ if ($login_ok)
         unset($row['password']);
         $_SESSION['user'] = $row;
         header("Location: admin.php");
-        die("Redirecting to: private.php");
+        die("Redirecting to: admin.php");
         }
       else
         {
@@ -91,7 +91,7 @@ if ($login_ok)
         unset($row['password']);
         $_SESSION['user'] = $row;
         header("Location: index.php");
-        die("Redirecting to: private.php");
+        die("Redirecting to: index.php");
         }
     } 
         else 
