@@ -1,21 +1,15 @@
-<?php 
+<?php
+require ("common.php");
 
-    
-    require("common.php"); 
-     
-    
-    if(empty($_SESSION['user'])) 
-    { 
-        
-        header("Location: login.php"); 
-         
-        
-        die("Redirecting to login.php"); 
-    } 
-     
-    
+if (empty($_SESSION['user']))
+    {
+    header("Location: login.php");
+    die("Redirecting to login.php");
+    }
+
 ?> 
-Hello <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, secret content!<br /> 
+Hello <?php
+echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, benvenuto!<br /> 
 
 <!DOCTYPE html>
 <html>
@@ -41,7 +35,7 @@ function controllaNome() {
 <?php
 $mestesso = htmlspecialchars($_SERVER["PHP_SELF"]);
 
-if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['createfile']) && !isset($_POST['scegli_playlist']) && !isset($_POST['scegli']))
+if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['createfile']))
     {
     echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
          <h4>Seleziona il file da caricare:</h4>
@@ -173,59 +167,10 @@ if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['cre
 
     // scegli playlist
 
-    if (isset($_POST['scegli_playlist']))
-        {
-        $uploadOk = 1;
-        $currentdir = getcwd();
-        $dir_playlist = "/music/";
-        chdir("$dir_playlist");
-        $filelistt = glob("*.m3u");
-        if (empty($filelistt))
-            {
-            echo "La directory è vuota..<br/>";
-            }
-          else
-            {
-            echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">";
-            echo " <h4>Scegli la playlist che vuoi pubblicare</h4>";
-            foreach($filelistt AS $file)
-                {
-                if (is_file($file))
-                    {
-                    echo "<input type=\"radio\" name=\"files[]\" value=\"$file\">$file<br /><br />\n";
-                    }
-                }
-
-            echo "<input type=\"submit\" value=\"Scegli\" name=\"scegli\">\n</form><br />";
-            }
-
-        chdir("$currentdir");
-        }
-
-    if (isset($_POST['scegli']))
-        {
-        if (isset($_POST['files']))
-            {
-            foreach($_POST['files'] AS $selectedfile)
-                {
-                echo "Hai selezionato: " . $selectedfile . "<br/>";
-                rename("/music/" . $selectedfile, "/music/playlist.m3u");
-                echo "La tua playlist è stata impostata<br/><br/>";
-                echo "<a href=\"playlist.php\">Torna alla home.</a>";
-                }
-            }
-          else
-            {
-            echo "Devi selezionare almeno una playlist.<br/><br/>";
-            echo "<a href=\"playlist.php\">Torna alla home.</a>";
-            }
-        }
-
-    // fine scegli playlist
 
     }
 
 ?> 
 
 </body>
-</html>
+</html> 

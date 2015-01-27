@@ -20,7 +20,9 @@
                 username, 
                 password, 
                 salt, 
-                email 
+                email,
+		tipo,
+		attivo
             FROM users 
             WHERE 
                 username = :username 
@@ -72,26 +74,26 @@
          
         // If the user logged in successfully, then we send them to the private members-only page 
         // Otherwise, we display a login failed message and show the login form again 
-        if($login_ok) 
-        { 
-            // Here I am preparing to store the $row array into the $_SESSION by 
-            // removing the salt and password values from it.  Although $_SESSION is 
-            // stored on the server-side, there is no reason to store sensitive values 
-            // in it unless you have to.  Thus, it is best practice to remove these 
-            // sensitive values first. 
-            unset($row['salt']); 
-            unset($row['password']); 
-             
-            // This stores the user's data into the session at the index 'user'. 
-            // We will check this index on the private members-only page to determine whether ''
-            // or not the user is logged in.  We can also use it to retrieve 
-            // the user's details. 
-            $_SESSION['user'] = $row; 
-             
-            // Redirect the user to the private members-only page. 
-            header("Location: index.php"); 
-            die("Redirecting to: private.php"); 
-        } 
+        
+if ($login_ok)
+    {
+    if ($row['tipo'] == 1)
+        {
+        unset($row['salt']);
+        unset($row['password']);
+        $_SESSION['user'] = $row;
+        header("Location: admin.php");
+        die("Redirecting to: private.php");
+        }
+      else
+        {
+        unset($row['salt']);
+        unset($row['password']);
+        $_SESSION['user'] = $row;
+        header("Location: index.php");
+        die("Redirecting to: private.php");
+        }
+    } 
         else 
         { 
             // Tell the user they failed 

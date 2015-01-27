@@ -1,21 +1,15 @@
-<?php 
+<?php
+require ("common.php");
 
-    
-    require("common.php"); 
-     
-    
-    if(empty($_SESSION['user'])) 
-    { 
-        
-        header("Location: login.php"); 
-         
-        
-        die("Redirecting to login.php"); 
-    } 
-     
-    
+if (empty($_SESSION['user']))
+    {
+    header("Location: login.php");
+    die("Redirecting to login.php");
+    }
+
 ?> 
-Ciao <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, benvenuto!<br /> 
+Hello <?php
+echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, benvenuto!<br /> 
 
 <!DOCTYPE html>
 <html>
@@ -35,7 +29,8 @@ function controllaNome() {
 
 </script>
 <a href="memberlist.php">Memberlist</a><br /> 
-<a href="edit_account.php">Modifica Account</a><br /> 
+<a href="edit_account.php">Edit Account</a><br /> 
+<a href="user_managment.php">Gestione Utenti</a><br /> 
 <a href="logout.php">Logout</a><br/>
 
 <?php
@@ -167,7 +162,7 @@ if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['cre
 
             fclose($fh);
             echo "Playlist Creata!<br/><br/>";
-            echo "<a href=\"playlist\">Torna alla home.</a>";
+            echo "<a href=\"playlist.php\">Torna alla home.</a>";
             }
         }
 
@@ -211,13 +206,13 @@ if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['cre
                 echo "Hai selezionato: " . $selectedfile . "<br/>";
                 rename("/music/" . $selectedfile, "/music/playlist.m3u");
                 echo "La tua playlist è stata impostata<br/><br/>";
-                echo "<a href=\"playlist\">Torna alla home.</a>";
+                echo "<a href=\"playlist.php\">Torna alla home.</a>";
                 }
             }
           else
             {
             echo "Devi selezionare almeno una playlist.<br/><br/>";
-            echo "<a href=\"playlist\">Torna alla home.</a>";
+            echo "<a href=\"playlist.php\">Torna alla home.</a>";
             }
         }
 
@@ -228,4 +223,4 @@ if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['cre
 ?> 
 
 </body>
-</html>
+</html> 
