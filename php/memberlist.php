@@ -13,7 +13,12 @@
         // people can view your members-only content without logging in. 
         die("Redirecting to login.php"); 
     } 
-     
+
+    $row=$_SESSION['user'];
+      if ($row['tipo'] != 1 )
+      {
+         die("Non puoi visualizzare questa pagina"); 
+      }
     // Everything below this point in the file is secured by the login system 
      
     // We can retrieve a list of members from the database using a SELECT query. 
@@ -48,7 +53,7 @@
     <tr> 
         <th>ID</th> 
         <th>Username</th> 
-        <th>E-Mail Address</th> 
+        <th>Indirizzo email</th> 
     </tr> 
     <?php foreach($rows as $row): ?> 
         <tr> 
