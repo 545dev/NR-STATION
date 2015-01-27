@@ -8,8 +8,8 @@ if (empty($_SESSION['user']))
     }
 
 ?> 
-Hello <?php
-echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, benvenuto!<br /> 
+Benvenuto <?php
+echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> !<br /> 
 
 <!DOCTYPE html>
 <html>
@@ -28,75 +28,21 @@ function controllaNome() {
 }
 
 </script>
-<a href="memberlist.php">Memberlist</a><br /> 
-<a href="edit_account.php">Edit Account</a><br /> 
+
+<a href="edit_account.php">Modifica Account</a><br /> 
 <a href="logout.php">Logout</a><br/>
 
 <?php
 $mestesso = htmlspecialchars($_SERVER["PHP_SELF"]);
 
-if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['createfile']))
+if (!isset($_POST['playlist']) && !isset($_POST['createfile']))
     {
-    echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
-         <h4>Seleziona il file da caricare:</h4>
-                <input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br/><br />
-                <input type=\"submit\" value=\"Carica\" name=\"upload\" onClick=\"return controllaNome()\"><br/><br/>
-        <h4>Crea una Playlist</h4>
-                <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/>
-        <h4>Scegli una Playlist</h4>
-                <input type=\"submit\" value=\"Scegli Playlist\" name=\"scegli_playlist\">        
-             </form>";
+        echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
+        <h4>Proponi la tua playlist</h4>
+        <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/> </form>";
     }
   else
     {
-    if (isset($_POST['upload']))
-        {
-        $target_dir = "/music/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $target_file = preg_replace('/\s+/', '_', $target_file);
-        $uploadOk = 1;
-        $musicFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-        if (file_exists($target_file))
-            {
-            echo ("\nIl file esiste già.<br/><br/>");
-            $uploadOk = 0;
-            }
-
-        if ($_FILES["fileToUpload"]["size"] > 100000000)
-            {
-            echo ("Il file è troppo grande per essere caricato (max 100MB).<br/><br/>");
-            $uploadOk = 0;
-            }
-
-        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=+¬-]/', $target_file))
-            {
-            echo ("Il nome del file contiene caratteri speciali<br/><br/>");
-            $uploadOk = 0;
-            }
-
-        if ($musicFileType != "mp3")
-            {
-            echo ("Puoi caricare solo file .mp3<br/><br/>");
-            $uploadOk = 0;
-            }
-
-        if ($uploadOk == 0)
-            {
-            echo "Il file non è stato caricato.<br/><br/>";
-            echo "<a href=\"playlist.php\">Torna alla home.</a>";
-            }
-          else
-            {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
-                {
-                echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " è stato caricato.";
-                }
-              else
-                {
-                echo "Spiacente, c'è stato un errore durante l'upload del tuo file.";
-                }
-            }
-        }
 
     if (isset($_POST['playlist']))
         {
@@ -164,9 +110,6 @@ if (!isset($_POST['upload']) && !isset($_POST['playlist']) && !isset($_POST['cre
             echo "<a href=\"playlist.php\">Torna alla home.</a>";
             }
         }
-
-    // scegli playlist
-
 
     }
 
