@@ -14,22 +14,32 @@
             // like this.  It is much better to display the error with the form 
             // and allow the user to correct their mistake.  However, that is an 
             // exercise for you to implement yourself. 
-            die("Please enter a username."); 
+            die("Inserisci l'username."); 
         } 
          
         // Ensure that the user has entered a non-empty password 
         if(empty($_POST['password'])) 
         { 
-            die("Please enter a password."); 
+            die("Inserisci una password."); 
         } 
-         
+	// controlla nome
+        if(empty($_POST['nome'])) 
+        { 
+            die("Devi inserire un nome."); 
+        }
+	// controlla copgnome
+        if(empty($_POST['cognome'])) 
+        { 
+            die("Devi inserire un nome."); 
+        }  
+          
         // Make sure the user entered a valid E-Mail address 
         // filter_var is a useful PHP function for validating form input, see: 
         // http://us.php.net/manual/en/function.filter-var.php 
         // http://us.php.net/manual/en/filter.filters.php 
         if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
         { 
-            die("Invalid E-Mail Address"); 
+            die("Indirizzo Email non valido"); 
         } 
          
         // We will use this SQL query to see whether the username entered by the 
@@ -118,14 +128,19 @@
                 username, 
                 password, 
                 salt, 
-                email 
+                email,
+		nome,
+		cognome
             ) VALUES ( 
                 :username, 
                 :password, 
                 :salt, 
-                :email 
+                :email,
+		:nome,
+		:cognome 
             ) 
         "; 
+        echo $query;  
          
         // A salt is randomly generated here to protect again brute force attacks 
         // and rainbow table attacks.  The following statement generates a hex 
@@ -161,7 +176,9 @@
             ':username' => $_POST['username'], 
             ':password' => $password, 
             ':salt' => $salt, 
-            ':email' => $_POST['email'] 
+            ':email' => $_POST['email'],
+            ':nome' => $_POST['nome'],
+            ':cognome' => $_POST['cognome']
         ); 
          
         try 
@@ -188,7 +205,13 @@
      
 ?> 
 <h1>Registrati</h1> 
-<form action="register.php" method="post"> 
+<form action="register.php" method="post">
+    Nome:<br /> 
+    <input type="text" name="nome" value="" /> 
+    <br /><br />
+    Cognome:<br /> 
+    <input type="text" name="cognome" value="" /> 
+    <br /><br />   
     Username:<br /> 
     <input type="text" name="username" value="" /> 
     <br /><br /> 
