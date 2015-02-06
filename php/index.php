@@ -1,5 +1,6 @@
- <?php
+<?php
 require ("common.php");
+include ("user_functions.php");
 
 if (empty($_SESSION['user']))
     {
@@ -41,10 +42,19 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
                 <input type=\"hidden\" name=\"utente\" id=\"utente\" value=\"$utente\">
                 <input type=\"submit\" value=\"Carica\" name=\"upload_page\"><br/><br/>
         <h4>Proponi la tua playlist</h4>
-        <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/> </form>";
+        <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/>
+        <h4>Le tue playlist</h4>
+        <input type=\"submit\" value=\"Vedi\" name=\"prova\"><br/><br/> </form>";
     }
   else
     {
+      
+     if (isset($_POST['prova']))
+        {
+             echo "<a href='index.php?modifica_playlist=true'>Modifica Playlist</a><br/>";
+             echo "<a href='index.php?delete_playlist=true'>Elimina Playlist</a><br/>";
+        }
+
     if (isset($_POST['upload_page']))
         {
         echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
@@ -152,7 +162,7 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
                 }
             }
         }
-
+    
     if (isset($_POST['playlist']))
         {
         $currentdir = getcwd();
@@ -217,6 +227,7 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
             echo "Playlist Creata!<br/><br/>";
             }
         }
+
     }
 
 ?> 
