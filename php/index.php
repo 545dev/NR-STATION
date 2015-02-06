@@ -1,10 +1,12 @@
-<?php
+ <?php
 require ("common.php");
+
 if (empty($_SESSION['user']))
     {
     header("Location: login.php");
     die("Redirecting to login.php");
     }
+
 ?> 
 Ciao <?php
 echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>, benvenuto!<br /><br /> 
@@ -24,28 +26,37 @@ function controllaNome() {
     return true;
 }
 </script>
-
+<a href="index.php">Home</a><br/>
 <a href="edit_account.php">Modifica Account</a><br /> 
-<a href="logout.php">Logout</a><br/>
+<a href="logout.php">Logout</a><br/><br/>
 
 <?php
 $utente = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
 $mestesso = htmlspecialchars($_SERVER["PHP_SELF"]);
-if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['createfile']))
+
+if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST['upload']) && !isset($_POST['createfile']))
     {
-        echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
-        <h4>Seleziona il file da caricare:</h4>
-                Artista <input type=\"text\" name=\"artista\" id=\"artista\"><br/><br />
-                Durata <input type=\"text\" name=\"durata\" id=\"durata\"><br/><br />
-                Genere <input type=\"text\" name=\"genere\" id=\"genere\"><br/><br />
-                <input type=\"hidden\" name=\"utente\" id=\"utente\" value=\"$utente\"><br/><br />
-                File da caricare <input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br/><br />
-                <input type=\"submit\" value=\"Carica\" name=\"upload\" onClick=\"return controllaNome()\"><br/><br/>
+    echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
+        <h4>Carica le tue canzoni</h4>
+                <input type=\"hidden\" name=\"utente\" id=\"utente\" value=\"$utente\">
+                <input type=\"submit\" value=\"Carica\" name=\"upload_page\"><br/><br/>
         <h4>Proponi la tua playlist</h4>
         <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/> </form>";
     }
   else
     {
+    if (isset($_POST['upload_page']))
+        {
+        echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
+            <h4>Scegli il file da caricare</h4>
+            <input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br/><br />
+                Artista <input type=\"text\" name=\"artista\" id=\"artista\"><br/><br />
+                Durata <input type=\"text\" name=\"durata\" id=\"durata\"><br/><br />
+                Genere <input type=\"text\" name=\"genere\" id=\"genere\"><br/><br />
+                <input type=\"submit\" value=\"Carica\" name=\"upload\" onClick=\"return controllaNome()\"><br/><br/>
+            </form>";
+        }
+
     if (isset($_POST['upload']))
         {
         $target_dir = "/music/";
@@ -53,26 +64,49 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
         $target_file = preg_replace('/\s+/', '_', $target_file);
         $uploadOk = 1;
         $musicFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+         if (strlen(trim($_POST['artista'])) == 0)
+            {
+            echo "Inserisci l'artista della canzone<br/><br/>";
+            $uploadOk = 0;
+            }
+
+        if (strlen(trim($_POST['durata'])) == 0)
+            {
+            echo "Inserisci la durata della canzone<br/><br/>";
+            $uploadOk = 0;
+            }
+
+        if (strlen(trim($_POST['durata'])) == 0)
+            {
+            echo "Seleziona un genere<br/><br/>";
+            $uploadOk = 0;
+            }
+
         if (file_exists($target_file))
             {
             echo ("\nIl file esiste già.<br/><br/>");
             $uploadOk = 0;
             }
+
         if ($_FILES["fileToUpload"]["size"] > 100000000)
             {
             echo ("Il file è troppo grande per essere caricato (max 100MB).<br/><br/>");
             $uploadOk = 0;
             }
+
         if (preg_match('/[\'^£$%&*()}{@#~?><>,|=+¬-]/', $target_file))
             {
             echo ("Il nome del file contiene caratteri speciali<br/><br/>");
             $uploadOk = 0;
             }
+
         if ($musicFileType != "mp3")
             {
             echo ("Puoi caricare solo file .mp3<br/><br/>");
             $uploadOk = 0;
             }
+
         if ($uploadOk == 0)
             {
             echo "Il file non è stato caricato.<br/><br/>";
@@ -82,15 +116,15 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
             {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
                 {
-                    $artista = $_POST["artista"];
-        $surata = $_POST["durata"];
-        $genere = $_POST["genere"];
-        $idUtente = $_POST["idUtente"];
+                $artista = $_POST["artista"];
+                $durata = $_POST["durata"];
+                $genere = $_POST["genere"];
+                $idUtente = $_POST["idUtente"];
                 echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " è stato caricato.";
                 $query = "
                          INSERT INTO canzoni 
-           (titolo,
-            artista,
+                              (titolo,
+                              artista,
                               durata,
                               genere,
                               idUtente)
@@ -100,24 +134,25 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
                               '$durata',
                               '$genere',
                               '$idUtente')";
-    $query2= " SELECT ..... FROM canzoni WHERE idUtente = $utente ";
- 
-                try 
-                {  
-                    $stmt = $db->prepare($query); 
-                    $result = $stmt->execute($query_params); 
-                } 
-                catch(PDOException $ex) 
-                { 
-                    die("Failed to run query: " . $ex->getMessage()); 
-                } 
-               }
+                $query2 = " SELECT ..... FROM canzoni WHERE idUtente = $utente ";
+                try
+                    {
+                    $stmt = $db->prepare($query);
+                    $result = $stmt->execute($query_params);
+                    }
+
+                catch(PDOException $ex)
+                    {
+                    die("Failed to run query: " . $ex->getMessage());
+                    }
+                }
               else
                 {
                 echo "Spiacente, c'è stato un errore durante l'upload del tuo file.";
                 }
             }
         }
+
     if (isset($_POST['playlist']))
         {
         $currentdir = getcwd();
@@ -141,10 +176,13 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
                     echo "<input type=\"checkbox\" name=\"checkfiles[]\" value=\"$file\">$file<br /><br />\n";
                     }
                 }
+
             echo "<input type=\"submit\" value=\"Crea Playlist\" name=\"createfile\">\n</form><br />";
             }
+
         chdir("$currentdir");
         }
+
     if (isset($_POST['createfile']))
         {
         $uploadOk = 1;
@@ -155,15 +193,16 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
             echo "Devi scegliere i file da caricare!<br/><br/>";
             $uploadOk = 0;
             }
+
         if (!isset($_REQUEST['nomeplay']) || strlen(trim($_REQUEST['nomeplay'])) == 0)
             {
             echo "Devi inserire il nome del file<br /><br/>";
             $uploadOk = 0;
             }
+
         if ($uploadOk == 0)
             {
             echo "Il file non è stato caricato.<br/><br/>";
-            echo "<a href=\"playlist.php\">Torna alla home.</a>";
             }
           else
             {
@@ -173,12 +212,13 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload']) && !isset($_POST['cre
                 echo "/music/" . $selectedfile . "<br /><br />";
                 fwrite($fh, "/music/" . $selectedfile . "\n");
                 }
+
             fclose($fh);
             echo "Playlist Creata!<br/><br/>";
-            echo "<a href=\"playlist.php\">Torna alla home.</a>";
             }
         }
     }
+
 ?> 
 
 </body>
