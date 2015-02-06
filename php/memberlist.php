@@ -28,7 +28,9 @@
         SELECT 
             id, 
             username, 
-            email 
+            email,
+            nome,
+            cognome 
         FROM users 
     "; 
      
@@ -53,13 +55,17 @@
     <tr> 
         <th>ID</th> 
         <th>Username</th> 
-        <th>Indirizzo email</th> 
+        <th>Indirizzo email</th>
+        <th>Nome</th> 
+        <th>Cognome</th>  
     </tr> 
     <?php foreach($rows as $row): ?> 
         <tr> 
             <td><?php echo $row['id']; ?></td> <!-- htmlentities is not needed here because $row['id'] is always an integer --> 
             <td><?php echo htmlentities($row['username'], ENT_QUOTES, 'UTF-8'); ?></td> 
-            <td><?php echo htmlentities($row['email'], ENT_QUOTES, 'UTF-8'); ?></td> 
+            <td><?php echo htmlentities($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php echo htmlentities($row['nome'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php echo htmlentities($row['cognome'], ENT_QUOTES, 'UTF-8'); ?></td> 
         </tr> 
     <?php endforeach; ?> 
 </table> 
