@@ -11,7 +11,7 @@ if (empty($_SESSION['user']))
     die("Redirecting to login.php");
   }
 
-// Funzione dedicata alla cancellazione della playlist utente
+// Cancella Playlist
 
 function delete_playlist()
   {
@@ -33,17 +33,49 @@ if (isset($_GET['delete_playlist']))
     delete_playlist();
   }
 
-// Funzione dedicata alla modifica della playlist utente
+// Modifica Playlist
 
 function modifica_playlist()
   {
+      
   }
 
-if (isset($_GET['modifica_playlist']))
+if (isset($_GET['edit_playlist']))
   {
+
     modifica_playlist();
+
   }
 
+// List delle playlist utente
+
+function play_list()
+  {
+    if (isset($_POST['play_list']))
+      {
+        // list
+        $idUtente = $_SESSION['user']['id'];
+        $query = "SELECT nome FROM playlist WHERE idUtente = $idUtente";
+
+        echo "Ecco la tue playlist";
+        try
+            {
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute($query_params);
+            }
+        catch(PDOException $ex)
+            {
+            die("Failed to run query: " . $ex->getMessage());
+            }
+      }
+  }
+
+if (isset($_GET['play_list']))
+  {
+    
+    play_list();
+
+  }
 ?>
 </body>
 </html>

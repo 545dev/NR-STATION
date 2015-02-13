@@ -35,16 +35,16 @@ function controllaNome() {
 $utente = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
 $mestesso = htmlspecialchars($_SERVER["PHP_SELF"]);
 
-if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST['upload']) && !isset($_POST['createfile']))
+if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST['upload']) && !isset($_POST['createfile']) && !isset($_POST['prova']))
     {
     echo "<form action=\"$mestesso\" method=\"post\" enctype=\"multipart/form-data\">
         <h4>Carica le tue canzoni</h4>
                 <input type=\"hidden\" name=\"utente\" id=\"utente\" value=\"$utente\">
                 <input type=\"submit\" value=\"Carica\" name=\"upload_page\"><br/><br/>
         <h4>Proponi la tua playlist</h4>
-        <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"><br/><br/>
+        <input type=\"submit\" value=\"Crea Playlist\" name=\"playlist\"> <br/><br/>
         <h4>Le tue playlist</h4>
-        <input type=\"submit\" value=\"Vedi\" name=\"prova\"><br/><br/> </form>";
+        <input type=\"submit\" value=\"Vedi\" name=\"prova\"> <br/><br/> </form>";
     }
   else
     {
@@ -129,7 +129,7 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
                 $artista = $_POST["artista"];
                 $durata = $_POST["durata"];
                 $genere = $_POST["genere"];
-                $idUtente = $_POST["idUtente"];
+                $idUtente = $_SESSION['user']['id'];
                 echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " è stato caricato.";
                 $query = "
                          INSERT INTO canzoni 
@@ -144,7 +144,6 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
                               '$durata',
                               '$genere',
                               '$idUtente')";
-                $query2 = " SELECT ..... FROM canzoni WHERE idUtente = $utente ";
                 try
                     {
                     $stmt = $db->prepare($query);
@@ -225,6 +224,23 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
 
             fclose($fh);
             echo "Playlist Creata!<br/><br/>";
+            $idUtente = $_SESSION['user']['id'];
+            $query = "
+                     INSERT INTO playlist
+                              (nome,
+                              idUtente)
+ 
+                     VALUES ('$nomeplay',
+                             '$idUtente')";
+            try
+                {
+                $stmt = $db->prepare($query);
+                $result = $stmt->execute($query_params);
+                }
+            catch(PDOException $ex)
+                {
+                die("Failed to run query: " . $ex->getMessage());
+                }
             }
         }
 
@@ -234,3 +250,4 @@ if (!isset($_POST['playlist']) && !isset($_POST['upload_page']) && !isset($_POST
 
 </body>
 </html> 
+
