@@ -19,6 +19,40 @@
   <![endif]-->
 </head>
 <body class="">
+<!-- carica -->
+    <div class="modal fade" id="carica" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Carica</h4>
+             </div>
+             <div class="modal-body">
+                <form data-validate="parsley">
+                   <div class="form-group">
+                      <label>Titolo</label>
+                      <input type="text" class="form-control" data-required="true">                        
+                   </div>
+                   <div class="form-group">
+                      <label>Artista</label>
+                      <input type="text" class="form-control" data-required="true">                        
+                   </div>
+                   <br/>
+                   Scegli il file da caricare: &nbsp; &nbsp;
+                   <label class="btn btn-primary" for="my-file-selector">
+                   <i class="fa fa-cloud-upload text"></i>
+                   <input id="my-file-selector" type="file" style="display:none;">
+                   Carica
+                   </label>
+             </div>
+             <div class="modal-footer">
+             <button type="submit" class="btn btn-success btn-s-xs">Invia</button>
+             </div>
+          </div>
+       </div>
+    </div>
+    </form>
+    <!-- / carica --> 
   <section class="vbox">
     <header class="bg-black lter header header-md navbar navbar-fixed-top-xs">
       <div class="navbar-header aside bg-success nav-xs">
@@ -33,7 +67,8 @@
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="icon-settings"></i>
         </a>
-      </div>      <ul class="nav navbar-nav hidden-xs">
+      </div>      
+      <ul class="nav navbar-nav hidden-xs">
         <li>
           <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted">
             <i class="fa fa-indent text"></i>
@@ -117,8 +152,7 @@
           <section class="vbox">
             <section class="w-f-md scrollable">
               <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2">
-                
-                <!-- nav -->                 
+               <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
                   <ul class="nav bg clearfix">
                     <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
@@ -131,18 +165,17 @@
                         <span class="font-bold">Home</span>
                       </a>
                     </li>
-
-                    <li>
-                      <a href="upload.php">
-                        <i class=" icon-cloud-upload icon text-success"></i>
-                        <span class="font-bold">Carica</span>
-                      </a>
-                    </li>
                     <li>
                       <a href="listen.html">
                         <i class="icon-disc icon text-primary-lter"></i>
                         <b class="badge bg-primary pull-right">6</b>
                         <span class="font-bold">Playlist</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" data-toggle="modal" data-target="#carica">
+                        <i class=" icon-cloud-upload icon text-success"></i>
+                        <span class="font-bold">Carica</span>
                       </a>
                     </li>
                     <li>
@@ -152,10 +185,8 @@
                       </a>
                     </li>
                 <!-- / nav -->
-
               </div>
             </section>
-            
             <footer class="footer hidden-xs no-padder text-center-nav-xs">
               <div class="bg hidden-xs ">
                   <div class="dropdown dropup wrapper-sm clearfix">
@@ -169,7 +200,6 @@
                           <strong class="font-bold text-lt">John.Smith</strong> 
                           <b class="caret"></b>
                         </span>
-
                       </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight aside text-left">                      
@@ -177,17 +207,16 @@
                         <a href="profile.html">Profilo</a>
                       </li>
                       <li>
-                      </li>
-                      <li>
                         <a href="docs.html">Aiuto</a>
                       </li>
                       <li class="divider"></li>
                       <li>
-                        <a href="logout.php" data-toggle="ajaxModal" >Logout</a>
+                        <a href="logout.php" data-toggle="ajaxModal" >Esci</a>
                       </li>
                     </ul>
                   </div>
-                </div>            </footer>
+                </div>            
+            </footer>
           </section>
         </aside>
         <!-- /.aside -->
@@ -392,9 +421,12 @@
   <!-- App -->
   <script src="js/app.js"></script>  
   <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="js/app.plugin.js"></script>
+  <script src="js/app.plugin.js"></script>
   <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
   <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
   <script type="text/javascript" src="js/jPlayer/demo.js"></script>
+  <!-- parsley -->
+  <script src="js/parsley/parsley.min.js"></script>
+  <script src="js/parsley/parsley.extend.js"></script>
 </body>
 </html>

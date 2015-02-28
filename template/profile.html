@@ -20,6 +20,40 @@
   <![endif]-->
 </head>
 <body class="">
+<!-- carica -->
+    <div class="modal fade" id="carica" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Carica</h4>
+             </div>
+             <div class="modal-body">
+                <form data-validate="parsley">
+                   <div class="form-group">
+                      <label>Titolo</label>
+                      <input type="text" class="form-control" data-required="true">                        
+                   </div>
+                   <div class="form-group">
+                      <label>Artista</label>
+                      <input type="text" class="form-control" data-required="true">                        
+                   </div>
+                   <br/>
+                   Scegli il file da caricare: &nbsp; &nbsp;
+                   <label class="btn btn-primary" for="my-file-selector">
+                   <i class="fa fa-cloud-upload text"></i>
+                   <input id="my-file-selector" type="file" style="display:none;">
+                   Carica
+                   </label>
+             </div>
+             <div class="modal-footer">
+             <button type="submit" class="btn btn-success btn-s-xs">Invia</button>
+             </div>
+          </div>
+       </div>
+    </div>
+    </form>
+    <!-- / carica --> 
   <section class="vbox">
     <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
       <div class="navbar-header aside bg-info dk">
@@ -132,17 +166,16 @@
                         <span class="font-bold">Home</span>
                       </a>
                     </li>
-
-                    <li>
-                      <a href="#" data-toggle="modal" data-target="#carica">
-                        <i class=" icon-cloud-upload icon text-success"></i>
-                        <span class="font-bold">Carica</span>
-                      </a>
-                    </li>
                     <li>
                       <a href="listen.html">
                         <i class="icon-disc icon text-primary-lter"></i>
                         <span class="font-bold">Playlist</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" data-toggle="modal" data-target="#carica">
+                        <i class=" icon-cloud-upload icon text-success"></i>
+                        <span class="font-bold">Carica</span>
                       </a>
                     </li>
                     <li>
@@ -153,10 +186,8 @@
                       </a>
                     </li>
                 <!-- / nav -->
-
               </div>
             </section>
-            
             <footer class="footer hidden-xs no-padder text-center-nav-xs">
               <div class="bg hidden-xs ">
                   <div class="dropdown dropup wrapper-sm clearfix">
@@ -181,7 +212,7 @@
                       </li>
                       <li class="divider"></li>
                       <li>
-                        <a href="modal.lockme.html" data-toggle="ajaxModal" >Logout</a>
+                        <a href="modal.lockme.html" data-toggle="ajaxModal" >Esci</a>
                       </li>
                     </ul>
                   </div>
@@ -248,14 +279,12 @@
                     </section>
                   </section>
                 </aside>
-
                 <aside class="bg-white">
-                  <section class="vbox">
-                    <section class="scrollable padder-v">
-                      
-                  <form data-validate="parsley">
-                    <section class="panel panel-default">
-                      <header class="panel-heading">
+                 <section class="vbox">
+                  <section class="scrollable padder-v">
+                    <form data-validate="parsley">
+                      <section class="panel panel-default">
+                       <header class="panel-heading">
                         <span class="h4">Modifica Account</span>
                       </header>
                       <div class="panel-body">
@@ -279,8 +308,6 @@
                       </footer>
                     </section>
                   </form>
-
-
                   <form data-validate="parsley">
                     <section class="panel panel-default">
                       <header class="panel-heading">
@@ -305,11 +332,9 @@
                       </footer>
                     </section>
                   </form>
-
-                    </section>
+                  </section>
                   </section>              
                 </aside>
-
               </section>
             </section>
           </section>
