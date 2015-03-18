@@ -2,7 +2,7 @@
 
 // Connessione al database e inizializzazione della sessione
 
-require ("common.php");
+require ("core/common.php");
 
 // Questa variabile sarà usata per visualizzare il nome utente nella schermata di
 // login se la password inserita non è corretta
@@ -102,7 +102,10 @@ if (!empty($_POST))
 
         // Tell the user they failed
 
-        print ("Login Failed.");
+        echo '<div class="text-center alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <i class="fa fa-ban-circle"></i><strong>Attenzione!</strong> <a href="#" class="alert-link">Lo username e/o la password </a> che hai inserito non sono corretti.
+              </div>';
 
         // Show them their username again so all they have to do is enter a new
         // password.  The use of htmlentities prevents XSS attacks.  You should
@@ -120,7 +123,7 @@ if (!empty($_POST))
 <head>  
   <meta charset="utf-8" />
   <title>NR STATION</title>
-  <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+  <meta name="description" content="iis" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <link rel="stylesheet" href="js/jPlayer/jplayer.flat.css" type="text/css" />
   <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
@@ -142,18 +145,18 @@ if (!empty($_POST))
       <section class="m-b-lg">
         <header class="wrapper text-center">
         </header>
-        <form action="login.php" method="post">
+        <form action="login.php" method="post" data-validate="parsley">
           <div class="form-group">
-            <input type="username" placeholder="Username" class="form-control rounded input-lg text-center no-border" name="username" value="<?php echo $submitted_username; ?>">
+            <input type="username" placeholder="Username" class="form-control rounded input-lg text-center no-border" data-required="true" name="username" value="<?php echo $submitted_username; ?>">
           </div>
           <div class="form-group">
-             <input type="password" placeholder="Password" class="form-control rounded input-lg text-center no-border" name="password">
+             <input type="password" placeholder="Password" class="form-control rounded input-lg text-center no-border" name="password" data-required="true">
           </div>
           <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Accedi</span></button>
           <div class="text-center m-t m-b"><a href="#"><small>Password dimenticata?</small></a></div>
           <div class="line line-dashed"></div>
           <p class="text-muted text-center"><small>Non hai ancora un account?</small></p>
-          <a href="signup.php" class="btn btn-lg btn-info btn-block rounded">Crea un account</a>
+          <a href="register.php" class="btn btn-lg btn-info btn-block rounded">Crea un account</a>
         </form>
       </section>
     </div>
@@ -170,10 +173,13 @@ if (!empty($_POST))
   <script src="js/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script src="js/bootstrap.js"></script>
+  <!-- Parsley -->
+  <script src="js/parsley/parsley.min.js"></script>
+  <script src="js/parsley/parsley.extend.js"></script>
   <!-- App -->
   <script src="js/app.js"></script>  
   <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="js/app.plugin.js"></script>
+  <script src="js/app.plugin.js"></script>
   <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
   <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
   <script type="text/javascript" src="js/jPlayer/demo.js"></script>
